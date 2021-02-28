@@ -1,8 +1,7 @@
 name: get_command
-description: A new Flutter package project.
-version: 0.0.1
-author:
-homepage:
+description: Command class to be used within GetControllers
+version: 1.0.0
+homepage: https://github.com/soernt/get_command
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -11,6 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+    
   get_rx: ^3.13.0
   
 dev_dependencies:
