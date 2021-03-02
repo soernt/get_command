@@ -1,3 +1,7 @@
+## [1.0.2] 2021.03.02
+
+* Update package description.
+
 ## [1.0.1] 2021.03.02
 
 * Update package description.
