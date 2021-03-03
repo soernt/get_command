@@ -1,23 +1,32 @@
 library get_command;
 
 import 'dart:async';
-
-import 'package:get_rx/get_rx.dart';
+import 'package:get/get_rx/get_rx.dart';
 
 /// Void function without any parameters.
+///
+/// That is the command function signature for the Command class.
 typedef VoidFunc = FutureOr<void> Function();
 
-// Void function with one generic parameter.
+/// Void function with one generic parameter.
+///
+/// That is the command function signature for the CommandP1 class.
 typedef VoidFuncWith1Parameter<P1> = FutureOr<void> Function(P1 p1);
 
-// Void function with two generic parameter.
+/// Void function with two generic parameter.
+///
+/// That is the command function signature for the CommandP2 class.
 typedef VoidFuncWith2Parameters<P1, P2> = FutureOr<void> Function(P1 p1, P2 p2);
 
-// Void function with three generic parameter.
+/// Void function with three generic parameter.
+///
+/// That is the command function signature for the CommandP3 class.
 typedef VoidFuncWith3Parameters<P1, P2, P3> = FutureOr<void> Function(
     P1 p1, P2 p2, P3);
 
 /// Error message callback. The result string will be used as the error message.
+///
+/// That is the function signature for errorMessageProviderFunc.
 typedef ErrorMessageProvider = FutureOr<String> Function(Exception exception);
 
 /// Command with three generic parameters.
@@ -111,7 +120,7 @@ class GetCommandP1<P1> extends _CommandBase {
 class GetCommand extends _CommandBase {
   /// The developer provided function that should be executed.
   VoidFunc commandFunc;
-  
+
   /// Creates an instance.
   ///
   /// Provide [enabled] and [executing] for the initial state.
@@ -136,15 +145,14 @@ class GetCommand extends _CommandBase {
   }
 }
 
-/// The Command base class 
+/// The Command base class
 abstract class _CommandBase {
-  
   /// The current state of the command.
   final Rx<CommandState> state;
 
-  /// A optional developer provided callback function that translates 
+  /// A optional developer provided callback function that translates
   /// an exception to an error message.
-  /// 
+  ///
   /// When a exceptions is thrown by the commandFunc, then
   /// this function will be called to get the state.errorMessage
   ErrorMessageProvider errorMessageProviderFunc;
@@ -157,11 +165,11 @@ abstract class _CommandBase {
 
   /// Can the user execute the commandFunc.
   bool get canBeExecuted => state.value.canBeExecuted;
-  
+
   /// Does the last call to of the commandFunc throws an error.
   bool get hasError => state.value.hasErrorMessage;
 
-  /// An error message 
+  /// An error message
   String get errorMessage => state.value.errorMessage;
 
   _CommandBase({bool enabled = true, bool executing = false})
@@ -218,21 +226,21 @@ abstract class _CommandBase {
   }
 }
 
-/// Represents the current state of a command
+/// Represents the current state of a command.
 class CommandState {
   /// Is the command enabled
   final bool enabled;
-  
-  // Is the command currently executed
+
+  /// Is the command currently executed
   final bool executing;
-  
-  // Error message of the last execution. 
+
+  /// Error message of the last execution.
   final String errorMessage;
 
   /// Can the user execute the commandFunc.
   bool get canBeExecuted => enabled && !executing;
 
-  // Is there an [errorMessage]
+  /// Is there an [errorMessage]
   bool get hasErrorMessage => errorMessage != null && errorMessage.isNotEmpty;
 
   const CommandState(this.enabled, this.executing, this.errorMessage);

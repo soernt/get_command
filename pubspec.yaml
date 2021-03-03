@@ -1,6 +1,6 @@
 name: get_command
 description: Command class to be used within GetControllers. Encapsulate a async function call to simplify UI updates.  
-version: 1.0.3
+version: 1.0.5
 homepage: https://github.com/soernt/get_command
 
 environment:
@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
     
-  get_rx: ^3.13.0
+  get: ^3.25.6
   
 dev_dependencies:
   flutter_test:

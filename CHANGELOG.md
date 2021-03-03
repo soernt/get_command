@@ -1,3 +1,11 @@
+## [1.0.5] 2021.03.02
+
+* change dependency from get_rx to get package.
+  
+## [1.0.4] 2021.03.02
+
+* Format code in the hunt to get all Pub Points :-) .
+  
 ## [1.0.3] 2021.03.02
 
 * Added Code documentation.
