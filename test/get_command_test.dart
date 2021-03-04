@@ -8,10 +8,10 @@ void main() {
       group('Construction', () {
         test(
             'when no parameters are given, then state is '
-                '* enabled'
-                '* not executing '
-                '* canBeExecuted'
-                '* no errors', () {
+            '* enabled'
+            '* not executing '
+            '* canBeExecuted'
+            '* no errors', () {
           // Act
           final cmd = GetCommand();
 
@@ -25,7 +25,7 @@ void main() {
 
         test(
             'when enabled parameter is given, '
-                'then state enabled should have expected value', () {
+            'then state enabled should have expected value', () {
           // Arrange
           final expectedEnabledValue = false;
 
@@ -38,7 +38,7 @@ void main() {
 
         test(
             'when executing parameter is given, '
-                'then state executing should have expected value', () {
+            'then state executing should have expected value', () {
           // Arrange
           final expectedExecutingValue = true;
 
@@ -52,58 +52,62 @@ void main() {
 
       group('Calling command', () {
         test('And no command function is given, then throws AssertionError',
-                () {
-              // Arrange
-              final cmd = GetCommand();
+            () {
+          // Arrange
+          final cmd = GetCommand();
 
-              // Act
-              final act = () async => await cmd();
+          // Act
+          final act = () async => await cmd();
 
-              // Assert
-              expect(act, throwsAssertionError);
-            });
+          // Assert
+          expect(act, throwsAssertionError);
+        });
 
         test('And it is not enabled, then command function is not called',
-                () async {
-              // Arrange
-              bool cmdFuncCalled = false;
-              final cmd = GetCommand(enabled: false);
-              cmd.commandFunc = () => cmdFuncCalled = true;
+            () async {
+          // Arrange
+          bool cmdFuncCalled = false;
+          final cmd = GetCommand(enabled: false);
+          cmd.commandFunc = () => cmdFuncCalled = true;
 
-              // Act
-              await cmd();
+          // Act
+          await cmd();
 
-              // Assert
-              expect(cmdFuncCalled, false);
-            });
+          // Assert
+          expect(cmdFuncCalled, false);
+        });
 
         test(
-            'When calling Then:'
-                '* executing switches from false to true and back to false',
-                () async {
-              // Arrange
-              var events = <CommandState>[];
-              final cmd = GetCommand();
-              cmd.commandFunc = () {};
-              cmd.state.listen((CommandState state) => events.add(state));
-              events.add(cmd.state.value);
+            'When calling, then:'
+            '* executing switches from false to true and back to false',
+            () async {
+          // Arrange
+          var events = <CommandState>[];
+          final cmd = GetCommand();
+          cmd.commandFunc = () {};
+          cmd.state.listen((CommandState? state) {
+            if (state != null) {
+              events.add(state);
+            }
+          });
 
-              // Act
-              await cmd();
-              await Future.delayed(Duration(microseconds: 50));
+          events.add(cmd.state.value!);
+          // Act
+          await cmd();
+          await Future.delayed(Duration(microseconds: 50));
 
-              // Assert
-              expect(events.length, 3);
-              expect(events[0].executing, false);
-              expect(events[1].executing, true);
-              expect(events[2].executing, false);
-            });
+          // Assert
+          expect(events.length, 3);
+          expect(events[0].executing, false);
+          expect(events[1].executing, true);
+          expect(events[2].executing, false);
+        });
 
         test(
             'When errorMessageProviderFunc has been provided and commandFunc throws, then:'
-                '* hasError is true'
-                '* errorMessageProviderFunc has been called'
-                '* errorMessage is provided error Message', () async {
+            '* hasError is true'
+            '* errorMessageProviderFunc has been called'
+            '* errorMessage is provided error Message', () async {
           // Arrange
           const expectedErrorMessage = 'error occurred';
           bool errorMessageProviderFuncHasBeenCalled = false;
@@ -127,8 +131,8 @@ void main() {
 
         test(
             'When errorMessageProviderFunc has not been provided and commandFunc throws, then:'
-                '* hasError is true'
-                '* errorMessage is Exception.toString()', () async {
+            '* hasError is true'
+            '* errorMessage is Exception.toString()', () async {
           // Arrange
           final exceptionToThrow = Exception('Some Error');
 
@@ -147,9 +151,9 @@ void main() {
       group('Destruction', () {
         test(
             'When dispose is called, then: '
-                '* errorMessageProviderFunc is set to null'
-                '* commandFunc is set to null'
-                '* state subscriptions are canceled ', () {
+            '* errorMessageProviderFunc is set to null'
+            '* commandFunc is set to null'
+            '* state subscriptions are canceled ', () {
           // Arrange
           final cmd = GetCommand();
           cmd.errorMessageProviderFunc = (Exception ex) => '';
@@ -170,7 +174,7 @@ void main() {
       test('then one parameter is passed down to commandFunc', () async {
         // Arrange
         final expectedP1Value = 'p1Value';
-        String receivedP1Value;
+        String? receivedP1Value;
         final cmdFunc = (String parameterP1) {
           receivedP1Value = parameterP1;
         };
@@ -186,9 +190,9 @@ void main() {
 
       test(
           'When dispose is called, then: '
-              '* errorMessageProviderFunc is set to null'
-              '* commandFunc is set to null'
-              '* state subscriptions are canceled ', () {
+          '* errorMessageProviderFunc is set to null'
+          '* commandFunc is set to null'
+          '* state subscriptions are canceled ', () {
         // Arrange
         final cmd = GetCommandP1<String>();
         cmd.errorMessageProviderFunc = (Exception ex) => '';
@@ -209,8 +213,8 @@ void main() {
         // Arrange
         final expectedP1Value = 'p1Value';
         final expectedP2Value = 1;
-        String receivedP1Value;
-        int receivedP2Value;
+        String? receivedP1Value;
+        int? receivedP2Value;
         final cmdFunc = (String parameterP1, int parameterP2) {
           receivedP1Value = parameterP1;
           receivedP2Value = parameterP2;
@@ -228,9 +232,9 @@ void main() {
 
       test(
           'When dispose is called, then: '
-              '* errorMessageProviderFunc is set to null'
-              '* commandFunc is set to null'
-              '* state subscriptions are canceled ', () {
+          '* errorMessageProviderFunc is set to null'
+          '* commandFunc is set to null'
+          '* state subscriptions are canceled ', () {
         // Arrange
         final cmd = GetCommandP2<String, int>();
         cmd.errorMessageProviderFunc = (Exception ex) => '';
@@ -252,10 +256,11 @@ void main() {
         final expectedP1Value = 'p1Value';
         final expectedP2Value = 1;
         bool expectedP3Value = true;
-        String receivedP1Value;
-        int receivedP2Value;
-        bool receivedP3Value;
-        final cmdFunc = (String parameterP1, int parameterP2, bool parameterP3) {
+        String? receivedP1Value;
+        int ?receivedP2Value;
+        bool? receivedP3Value;
+        final cmdFunc =
+            (String parameterP1, int parameterP2, bool parameterP3) {
           receivedP1Value = parameterP1;
           receivedP2Value = parameterP2;
           receivedP3Value = parameterP3;
@@ -274,9 +279,9 @@ void main() {
 
       test(
           'When dispose is called, then: '
-              '* errorMessageProviderFunc is set to null'
-              '* commandFunc is set to null'
-              '* state subscriptions are canceled ', () {
+          '* errorMessageProviderFunc is set to null'
+          '* commandFunc is set to null'
+          '* state subscriptions are canceled ', () {
         // Arrange
         final cmd = GetCommandP3<String, int, bool>();
         cmd.errorMessageProviderFunc = (Exception ex) => '';
@@ -291,6 +296,5 @@ void main() {
         expect(cmd.state.subject.isClosed, true);
       });
     });
-
   });
 }

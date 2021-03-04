@@ -32,7 +32,7 @@ typedef ErrorMessageProvider = FutureOr<String> Function(Exception exception);
 /// Command with three generic parameters.
 class GetCommandP3<P1, P2, P3> extends _CommandBase {
   /// The developer provided function that should be executed.
-  VoidFuncWith3Parameters<P1, P2, P3> commandFunc;
+  VoidFuncWith3Parameters<P1, P2, P3>? commandFunc;
 
   /// Creates an instance.
   ///
@@ -54,14 +54,14 @@ class GetCommandP3<P1, P2, P3> extends _CommandBase {
   /// command function.
   FutureOr<void> call(P1 p1, P2 p2, P3 p3) {
     assert(commandFunc != null);
-    return _doExecute(() => commandFunc(p1, p2, p3));
+    return _doExecute(() => commandFunc!(p1, p2, p3));
   }
 }
 
 /// Command with two generic parameters.
 class GetCommandP2<P1, P2> extends _CommandBase {
   /// The developer provided function that should be executed.
-  VoidFuncWith2Parameters<P1, P2> commandFunc;
+  VoidFuncWith2Parameters<P1, P2>? commandFunc;
 
   /// Creates an instance.
   ///
@@ -83,14 +83,14 @@ class GetCommandP2<P1, P2> extends _CommandBase {
   /// command function.
   FutureOr<void> call(P1 p1, P2 p2) {
     assert(commandFunc != null);
-    return _doExecute(() => commandFunc(p1, p2));
+    return _doExecute(() => commandFunc!(p1, p2));
   }
 }
 
 /// Command with one generic parameter.
 class GetCommandP1<P1> extends _CommandBase {
   /// The developer provided function that should be executed.
-  VoidFuncWith1Parameter<P1> commandFunc;
+  VoidFuncWith1Parameter<P1>? commandFunc;
 
   /// Creates an instance.
   ///
@@ -112,14 +112,14 @@ class GetCommandP1<P1> extends _CommandBase {
   /// command function.
   FutureOr<void> call(P1 p1) {
     assert(commandFunc != null);
-    return _doExecute(() => commandFunc(p1));
+    return _doExecute(() => commandFunc!(p1));
   }
 }
 
 /// Command with without any parameters..
 class GetCommand extends _CommandBase {
   /// The developer provided function that should be executed.
-  VoidFunc commandFunc;
+  VoidFunc? commandFunc;
 
   /// Creates an instance.
   ///
@@ -141,7 +141,7 @@ class GetCommand extends _CommandBase {
   /// command function.
   FutureOr<void> call() {
     assert(commandFunc != null);
-    return _doExecute(() => commandFunc());
+    return _doExecute(() => commandFunc!());
   }
 }
 
@@ -155,31 +155,30 @@ abstract class _CommandBase {
   ///
   /// When a exceptions is thrown by the commandFunc, then
   /// this function will be called to get the state.errorMessage
-  ErrorMessageProvider errorMessageProviderFunc;
+  ErrorMessageProvider? errorMessageProviderFunc;
 
   /// Is the command enabled.
-  bool get enabled => state.value.enabled;
+  bool get enabled => state.value?.enabled ?? false;
 
   /// Is the commandFunc currently executed.
-  bool get executing => state.value.executing;
+  bool get executing => state.value?.executing ?? false;
 
   /// Can the user execute the commandFunc.
-  bool get canBeExecuted => state.value.canBeExecuted;
+  bool get canBeExecuted => state.value?.canBeExecuted ?? false;
 
   /// Does the last call to of the commandFunc throws an error.
-  bool get hasError => state.value.hasErrorMessage;
+  bool get hasError => state.value?.hasErrorMessage ?? false;
 
   /// An error message
-  String get errorMessage => state.value.errorMessage;
+  String get errorMessage => state.value?.errorMessage ?? '';
 
   _CommandBase({bool enabled = true, bool executing = false})
       : state = CommandState(enabled, executing, '').obs;
 
   FutureOr<void> _doExecute(
       FutureOr<void> Function() internalCommandFunc) async {
-    assert(internalCommandFunc != null);
 
-    if (!state.value.enabled) {
+    if (!(state.value?.enabled ?? false)) {
       return null;
     }
 
@@ -196,7 +195,7 @@ abstract class _CommandBase {
   Future<void> _setError(Exception exception) async {
     var errorMsg = '';
     if (errorMessageProviderFunc != null) {
-      errorMsg = await errorMessageProviderFunc(exception);
+      errorMsg = await errorMessageProviderFunc!(exception);
     } else {
       errorMsg = exception.toString();
     }
@@ -205,8 +204,8 @@ abstract class _CommandBase {
   }
 
   /// Sets the current state of the command.
-  void setState({bool enabled, bool executing, String errorMessage}) {
-    final newState = state.value.copyWith(
+  void setState({bool? enabled, bool? executing, String? errorMessage}) {
+    final newState = state.value?.copyWith(
       enabled: enabled,
       executing: executing,
       errorMessage: errorMessage,
@@ -241,12 +240,12 @@ class CommandState {
   bool get canBeExecuted => enabled && !executing;
 
   /// Is there an [errorMessage]
-  bool get hasErrorMessage => errorMessage != null && errorMessage.isNotEmpty;
+  bool get hasErrorMessage => errorMessage.isNotEmpty;
 
   const CommandState(this.enabled, this.executing, this.errorMessage);
 
   /// Standard copyWith(...) function.
-  CommandState copyWith({bool enabled, bool executing, String errorMessage}) {
+  CommandState copyWith({bool? enabled, bool? executing, String? errorMessage}) {
     return CommandState(
         enabled = enabled ?? this.enabled,
         executing = executing ?? this.executing,
