@@ -24,10 +24,7 @@ class GetCommand extends _GetCommandBase {
     super.dispose();
   }
 
-  /// A Command is a callable class.
-  ///
-  /// You can use Command() instead of Command.commandFunc() to execute the
-  /// command function.
+  /// Executes the command function [commandFunc].
   FutureOr<void> exec() {
     assert(commandFunc != null);
     return _doExecute(() => commandFunc!());

@@ -19,6 +19,7 @@ class CommandState {
 
   const CommandState(this.enabled, this.executing, this.errorMessage);
 
+  /// Create an instance with [enabled] = true, [executing] = false and [errorMessage] = ''
   factory CommandState.defaultState() {
     return const CommandState(true, false, '');
   }

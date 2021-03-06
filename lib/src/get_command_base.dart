@@ -5,34 +5,9 @@ part of get_command;
 /// That is the function signature for errorMessageProviderFunc.
 typedef ErrorMessageProvider = FutureOr<String> Function(Exception exception);
 
-/// The Command common layout.
-abstract class ICommandBase {
-  CommandState get state;
-
-  bool get enabled;
-
-  bool get executing;
-
-  bool get canBeExecuted;
-
-  bool get hasError;
-
-  String get errorMessage;
-
-  void setState({bool? enabled, bool? executing, String? errorMessage});
-
-  void resetState();
-
-  void dispose();
-
-  void call();
-}
-
 /// The Command base class
-abstract class _GetCommandBase extends Rx<CommandState>
-    implements ICommandBase {
+abstract class _GetCommandBase extends Rx<CommandState> {
   /// The current state of the command.
-  @override
   CommandState get state => value ?? CommandState.defaultState();
 
   set _state(CommandState stateValue) {
@@ -47,23 +22,18 @@ abstract class _GetCommandBase extends Rx<CommandState>
   ErrorMessageProvider? errorMessageProviderFunc;
 
   /// Is the command enabled.
-  @override
   bool get enabled => state.enabled;
 
   /// Is the commandFunc currently executed.
-  @override
   bool get executing => state.executing;
 
   /// Can the user execute the commandFunc.
-  @override
   bool get canBeExecuted => state.canBeExecuted;
 
-  /// Does the last call to of the commandFunc throws an error.
-  @override
-  bool get hasError => state.hasErrorMessage;
+  /// Does the last call to of the commandFunc results to an errorMessage.
+  bool get hasErrorMessage => state.hasErrorMessage;
 
   /// An error message
-  @override
   String get errorMessage => state.errorMessage;
 
   _GetCommandBase({bool enabled = true, bool executing = false}) {
@@ -101,7 +71,6 @@ abstract class _GetCommandBase extends Rx<CommandState>
   }
 
   /// Sets the current state of the command.
-  @override
   void setState({bool? enabled, bool? executing, String? errorMessage}) {
     _state = state.copyWith(
       enabled: enabled,
@@ -111,7 +80,6 @@ abstract class _GetCommandBase extends Rx<CommandState>
   }
 
   /// Resets the state to enabled, not executing without an errorMessage.
-  @override
   void resetState() {
     setState(enabled: true, executing: false, errorMessage: '');
   }

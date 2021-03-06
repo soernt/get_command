@@ -20,7 +20,7 @@ void main() {
           expect(cmd.executing, false);
           expect(cmd.canBeExecuted, true);
           expect(cmd.errorMessage, '');
-          expect(cmd.hasError, false);
+          expect(cmd.hasErrorMessage, false);
         });
 
         test(
@@ -124,7 +124,7 @@ void main() {
           await cmd.exec();
 
           // Assert
-          expect(cmd.hasError, true);
+          expect(cmd.hasErrorMessage, true);
           expect(errorMessageProviderFuncHasBeenCalled, true);
           expect(cmd.errorMessage, expectedErrorMessage);
         });
@@ -143,7 +143,7 @@ void main() {
           await cmd.exec();
 
           // Assert
-          expect(cmd.hasError, true);
+          expect(cmd.hasErrorMessage, true);
           expect(cmd.errorMessage, exceptionToThrow.toString());
         });
       });

@@ -1,3 +1,7 @@
+## [2.0.0-nullsafety.1] 2021.03.06
+ * removed ICommand class
+ * renamed hasError to hasErrorMessage  
+
 ## [2.0.0-nullsafety.0] 2021.03.06
 
 * Null safty

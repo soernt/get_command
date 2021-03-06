@@ -25,10 +25,7 @@ class GetCommandP3<P1, P2, P3> extends _GetCommandBase {
     super.dispose();
   }
 
-  /// A Command is a callable class.
-  ///
-  /// You can use Command() instead of Command.commandFunc() to execute the
-  /// command function.
+  /// Executes the command function [commandFunc].
   FutureOr<void> exec(P1 p1, P2 p2, P3 p3) {
     assert(commandFunc != null);
     return _doExecute(() => commandFunc!(p1, p2, p3));
