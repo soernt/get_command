@@ -1,3 +1,8 @@
+## [2.0.0-nullsafety.2] 2021.03.06
+ * completed the readme.md
+ * update the example.md   
+
+
 ## [2.0.0-nullsafety.1] 2021.03.06
  * removed ICommand class
  * renamed hasError to hasErrorMessage  

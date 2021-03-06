@@ -46,7 +46,7 @@ class HomeView extends GetView<HomeController> {
             Obx(() {
               return ElevatedButton(
                 onPressed: controller.cmdExecuteComputation.canBeExecuted
-                    ? () async => await controller.cmdExecuteComputation()
+                    ? cmdExecuteComputation.exec
                     : null,
                 child: controller.cmdExecuteComputation.executing
                     ? Row(mainAxisSize: MainAxisSize.min, children: [
