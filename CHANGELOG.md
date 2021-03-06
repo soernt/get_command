@@ -1,3 +1,9 @@
+## [2.0.0-nullsafety.0] 2021.03.06
+
+* Null safty
+* restructure directory layout to follow best practice
+* GetCommand is inherited from RX. Saddly the callable function is used by RX. You need to call GetCommand.exec(...) to execute the associated command function
+  
 ## [1.0.5] 2021.03.02
 
 * change dependency from get_rx to get package.

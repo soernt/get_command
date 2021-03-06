@@ -1,6 +1,6 @@
 name: get_command
 description: Command class to be used within GetControllers. Encapsulate a async function call to simplify UI updates.  
-version: 1.0.5
+version: 2.0.0-nullsafety.0
 homepage: https://github.com/soernt/get_command
 
 environment:

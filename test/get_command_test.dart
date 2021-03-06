@@ -57,7 +57,7 @@ void main() {
           final cmd = GetCommand();
 
           // Act
-          final act = () async => await cmd();
+          final act = () async => await cmd.exec();
 
           // Assert
           expect(act, throwsAssertionError);
@@ -71,7 +71,7 @@ void main() {
           cmd.commandFunc = () => cmdFuncCalled = true;
 
           // Act
-          await cmd();
+          await cmd.exec();
 
           // Assert
           expect(cmdFuncCalled, false);
@@ -85,15 +85,15 @@ void main() {
           var events = <CommandState>[];
           final cmd = GetCommand();
           cmd.commandFunc = () {};
-          cmd.state.listen((CommandState? state) {
+          cmd.listen((CommandState? state) {
             if (state != null) {
               events.add(state);
             }
           });
 
-          events.add(cmd.state.value!);
+          events.add(cmd.value!);
           // Act
-          await cmd();
+          await cmd.exec();
           await Future.delayed(Duration(microseconds: 50));
 
           // Assert
@@ -121,7 +121,7 @@ void main() {
           cmd.errorMessageProviderFunc = errorMessageProviderFunc;
 
           // Act
-          await cmd();
+          await cmd.exec();
 
           // Assert
           expect(cmd.hasError, true);
@@ -140,7 +140,7 @@ void main() {
           cmd.commandFunc = () => throw exceptionToThrow;
 
           // Act
-          await cmd();
+          await cmd.exec();
 
           // Assert
           expect(cmd.hasError, true);
@@ -152,8 +152,7 @@ void main() {
         test(
             'When dispose is called, then: '
             '* errorMessageProviderFunc is set to null'
-            '* commandFunc is set to null'
-            '* state subscriptions are canceled ', () {
+            '* commandFunc is set to null', () {
           // Arrange
           final cmd = GetCommand();
           cmd.errorMessageProviderFunc = (Exception ex) => '';
@@ -165,7 +164,6 @@ void main() {
           // Assert
           expect(cmd.errorMessageProviderFunc, null);
           expect(cmd.commandFunc, null);
-          expect(cmd.state.subject.isClosed, true);
         });
       });
     });
@@ -182,7 +180,7 @@ void main() {
         cmd.commandFunc = cmdFunc;
 
         // Act‚
-        await cmd(expectedP1Value);
+        await cmd.exec(expectedP1Value);
 
         // Assert
         expect(receivedP1Value, expectedP1Value);
@@ -191,8 +189,7 @@ void main() {
       test(
           'When dispose is called, then: '
           '* errorMessageProviderFunc is set to null'
-          '* commandFunc is set to null'
-          '* state subscriptions are canceled ', () {
+          '* commandFunc is set to null', () {
         // Arrange
         final cmd = GetCommandP1<String>();
         cmd.errorMessageProviderFunc = (Exception ex) => '';
@@ -204,7 +201,6 @@ void main() {
         // Assert
         expect(cmd.errorMessageProviderFunc, null);
         expect(cmd.commandFunc, null);
-        expect(cmd.state.subject.isClosed, true);
       });
     });
 
@@ -223,7 +219,7 @@ void main() {
         cmd.commandFunc = cmdFunc;
 
         // Act‚
-        await cmd(expectedP1Value, expectedP2Value);
+        await cmd.exec(expectedP1Value, expectedP2Value);
 
         // Assert
         expect(receivedP1Value, expectedP1Value);
@@ -233,8 +229,7 @@ void main() {
       test(
           'When dispose is called, then: '
           '* errorMessageProviderFunc is set to null'
-          '* commandFunc is set to null'
-          '* state subscriptions are canceled ', () {
+          '* commandFunc is set to null', () {
         // Arrange
         final cmd = GetCommandP2<String, int>();
         cmd.errorMessageProviderFunc = (Exception ex) => '';
@@ -246,7 +241,6 @@ void main() {
         // Assert
         expect(cmd.errorMessageProviderFunc, null);
         expect(cmd.commandFunc, null);
-        expect(cmd.state.subject.isClosed, true);
       });
     });
 
@@ -269,7 +263,7 @@ void main() {
         cmd.commandFunc = cmdFunc;
 
         // Act‚
-        await cmd(expectedP1Value, expectedP2Value, expectedP3Value);
+        await cmd.exec(expectedP1Value, expectedP2Value, expectedP3Value);
 
         // Assert
         expect(receivedP1Value, expectedP1Value);
@@ -280,8 +274,7 @@ void main() {
       test(
           'When dispose is called, then: '
           '* errorMessageProviderFunc is set to null'
-          '* commandFunc is set to null'
-          '* state subscriptions are canceled ', () {
+          '* commandFunc is set to null', () {
         // Arrange
         final cmd = GetCommandP3<String, int, bool>();
         cmd.errorMessageProviderFunc = (Exception ex) => '';
@@ -293,7 +286,6 @@ void main() {
         // Assert
         expect(cmd.errorMessageProviderFunc, null);
         expect(cmd.commandFunc, null);
-        expect(cmd.state.subject.isClosed, true);
       });
     });
   });
