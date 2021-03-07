@@ -1,3 +1,7 @@
+## [2.0.0-nullsafety.3] 2021.03.07
+ * added static code analyser
+ * fix analyser hints
+
 ## [2.0.0-nullsafety.2] 2021.03.06
  * completed the readme.md
  * update the example.md   
