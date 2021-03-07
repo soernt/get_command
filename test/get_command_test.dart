@@ -66,9 +66,9 @@ void main() {
         test('And it is not enabled, then command function is not called',
             () async {
           // Arrange
-          bool cmdFuncCalled = false;
-          final cmd = GetCommand(enabled: false);
-          cmd.commandFunc = () => cmdFuncCalled = true;
+          var cmdFuncCalled = false;
+          final cmd = GetCommand(enabled: false)
+            ..commandFunc = () => cmdFuncCalled = true;
 
           // Act
           await cmd.exec();
@@ -83,13 +83,13 @@ void main() {
             () async {
           // Arrange
           var events = <CommandState>[];
-          final cmd = GetCommand();
-          cmd.commandFunc = () {};
-          cmd.listen((CommandState? state) {
-            if (state != null) {
-              events.add(state);
-            }
-          });
+          final cmd = GetCommand()
+            ..commandFunc = () {}
+            ..listen((CommandState? state) {
+              if (state != null) {
+                events.add(state);
+              }
+            });
 
           events.add(cmd.value!);
           // Act
@@ -110,15 +110,15 @@ void main() {
             '* errorMessage is provided error Message', () async {
           // Arrange
           const expectedErrorMessage = 'error occurred';
-          bool errorMessageProviderFuncHasBeenCalled = false;
+          var errorMessageProviderFuncHasBeenCalled = false;
           final errorMessageProviderFunc = (Exception ex) {
             errorMessageProviderFuncHasBeenCalled = true;
             return expectedErrorMessage;
           };
 
-          final cmd = GetCommand();
-          cmd.commandFunc = () => throw Exception('Some error');
-          cmd.errorMessageProviderFunc = errorMessageProviderFunc;
+          final cmd = GetCommand()
+            ..errorMessageProviderFunc = errorMessageProviderFunc
+            ..commandFunc = () => throw Exception('Some error');
 
           // Act
           await cmd.exec();
@@ -136,8 +136,7 @@ void main() {
           // Arrange
           final exceptionToThrow = Exception('Some Error');
 
-          final cmd = GetCommand();
-          cmd.commandFunc = () => throw exceptionToThrow;
+          final cmd = GetCommand()..commandFunc = () => throw exceptionToThrow;
 
           // Act
           await cmd.exec();
@@ -176,8 +175,7 @@ void main() {
         final cmdFunc = (String parameterP1) {
           receivedP1Value = parameterP1;
         };
-        final cmd = GetCommandP1<String>();
-        cmd.commandFunc = cmdFunc;
+        final cmd = GetCommandP1<String>()..commandFunc = cmdFunc;
 
         // Act‚
         await cmd.exec(expectedP1Value);
@@ -215,8 +213,7 @@ void main() {
           receivedP1Value = parameterP1;
           receivedP2Value = parameterP2;
         };
-        final cmd = GetCommandP2<String, int>();
-        cmd.commandFunc = cmdFunc;
+        final cmd = GetCommandP2<String, int>()..commandFunc = cmdFunc;
 
         // Act‚
         await cmd.exec(expectedP1Value, expectedP2Value);
@@ -249,9 +246,9 @@ void main() {
         // Arrange
         final expectedP1Value = 'p1Value';
         final expectedP2Value = 1;
-        bool expectedP3Value = true;
+        var expectedP3Value = true;
         String? receivedP1Value;
-        int ?receivedP2Value;
+        int? receivedP2Value;
         bool? receivedP3Value;
         final cmdFunc =
             (String parameterP1, int parameterP2, bool parameterP3) {
@@ -259,8 +256,8 @@ void main() {
           receivedP2Value = parameterP2;
           receivedP3Value = parameterP3;
         };
-        final cmd = GetCommandP3<String, int, bool>();
-        cmd.commandFunc = cmdFunc;
+        final cmd = GetCommandP3<String, int, bool>()
+          ..commandFunc = cmdFunc;
 
         // Act‚
         await cmd.exec(expectedP1Value, expectedP2Value, expectedP3Value);

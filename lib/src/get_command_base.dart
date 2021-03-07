@@ -87,7 +87,7 @@ abstract class _GetCommandBase extends Rx<CommandState> {
   /// Releases all resources.
   @mustCallSuper
   void dispose() {
-    this.close();
+    close();
     errorMessageProviderFunc = null;
   }
 }

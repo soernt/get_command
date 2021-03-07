@@ -11,6 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
     
+  pedantic: ^1.9.2
   get: ^4.0.0-nullsafety.0
 
 dev_dependencies:
