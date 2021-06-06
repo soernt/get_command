@@ -91,7 +91,7 @@ void main() {
               }
             });
 
-          events.add(cmd.value!);
+          events.add(cmd.value);
           // Act
           await cmd.exec();
           await Future.delayed(Duration(microseconds: 50));

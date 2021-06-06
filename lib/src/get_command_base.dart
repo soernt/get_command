@@ -1,14 +1,12 @@
 part of get_command;
 
 /// Error message callback. The result string will be used as the error message.
-///
-/// That is the function signature for errorMessageProviderFunc.
 typedef ErrorMessageProvider = FutureOr<String> Function(Exception exception);
 
 /// The Command base class
 abstract class _GetCommandBase extends Rx<CommandState> {
   /// The current state of the command.
-  CommandState get state => value ?? CommandState.defaultState();
+  CommandState get state => value;
 
   set _state(CommandState stateValue) {
     value = stateValue;
@@ -36,7 +34,8 @@ abstract class _GetCommandBase extends Rx<CommandState> {
   /// An error message
   String get errorMessage => state.errorMessage;
 
-  _GetCommandBase({bool enabled = true, bool executing = false}) {
+  _GetCommandBase({bool enabled = true, bool executing = false})
+      : super(CommandState.defaultState()) {
     setState(
       enabled: enabled,
       executing: executing,

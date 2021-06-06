@@ -1,3 +1,8 @@
+## [2.0.1] 2021.06.06
+ * make null safty is default
+ * fix analyser hints
+ * upgrade to get 4.1.4
+
 ## [2.0.0-nullsafety.3] 2021.03.07
  * added static code analyser
  * fix analyser hints
